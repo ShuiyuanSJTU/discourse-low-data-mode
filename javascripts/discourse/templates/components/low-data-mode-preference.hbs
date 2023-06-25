@@ -1,0 +1,15 @@
+<div class="control-group low-data-mode">
+  <label class="control-label">{{theme-i18n "low_data_mode"}}</label>
+  <div class="controls">
+    <PreferenceCheckbox
+      @labelKey={{theme-prefix 'low_data_mode_image'}}
+      @checked={{model.lowDataModeImage}}
+    />
+  </div>
+  <div class="controls">
+    <PreferenceCheckbox
+      @labelKey={{theme-prefix 'low_data_mode_video'}}
+      @checked={{model.lowDataModeVideo}}
+    />
+  </div>
+</div>

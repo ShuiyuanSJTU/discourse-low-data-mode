@@ -1,0 +1,8 @@
+zh_CN:
+  low_data_mode: "省流模式"
+  low_data_mode_image: "不加载用户帖子中的图片"
+  low_data_mode_video: "不加载用户帖子中的视频"
+  place_holder_image: "[点击加载图片]"
+  place_holder_video: "[点击加载视频]"
+  theme_metadata:
+    description: "减少资源加载以节约数据流量"

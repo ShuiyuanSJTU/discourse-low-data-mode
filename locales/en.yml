@@ -1,0 +1,8 @@
+en:
+  low_data_mode: "Low Data Mode"
+  low_data_mode_image: "Do not load images"
+  low_data_mode_video: "Do not load videos"
+  place_holder_image: "[点击加载图片]"
+  place_holder_video: "[点击加载视频]"
+  theme_metadata:
+    description: "New user card layout & style"
