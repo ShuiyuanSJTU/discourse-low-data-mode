@@ -17,27 +17,29 @@ export default {
         });
         api.decorateCookedElement(
           post => {
-            function hide_element(elem,placeholder_text){
-              const previous = elem;
+            function hide_element(elem, placeholder_text) {
               const placeholder = document.createElement('a');
               placeholder.innerText = placeholder_text;
-              placeholder.setAttribute('data-previous',elem.outerHTML);
-              placeholder.addEventListener('click',function(event) {
-                  const placeholder = event.target;
-                  const previous = (new DOMParser()).parseFromString(placeholder.getAttribute('data-previous'), 'text/html').body.firstChild;;
-                  placeholder.replaceWith(previous);
+              placeholder.setAttribute('data-previous', elem.outerHTML);
+              placeholder.addEventListener('click', function (event) {
+                const placeholder = event.target;
+                const previous = (new DOMParser()).parseFromString(placeholder.getAttribute('data-previous'), 'text/html').body.firstChild;;
+                placeholder.replaceWith(previous);
               })
               elem.replaceWith(placeholder);
             }
-            if (api.getCurrentUser().get('lowDataModeImage')) { 
+            if (api.getCurrentUser().get('lowDataModeImage')) {
               post.querySelectorAll('.lightbox:not(.emoji):not(.avatar)')
                 .forEach((img) => hide_element(img, I18n.t(themePrefix("place_holder_image"))));
               post.querySelectorAll('img:not(.emoji):not(.avatar)')
                 .forEach((img) => hide_element(img, I18n.t(themePrefix("place_holder_image"))));
             }
             if (api.getCurrentUser().get('lowDataModeVideo')) {
-              post.querySelectorAll('video')
-                .forEach((video) => hide_element(video, I18n.t(themePrefix("place_holder_video"))));
+              ['.video-container', 'video', 'audio', 'iframe'].forEach((selector) => {
+                post.querySelectorAll(selector)
+                  .forEach((video) => hide_element(video, I18n.t(themePrefix("place_holder_video"))));
+              }
+              );
             }
           },
           { id: 'low-data-mode', onlyStream: false }
