@@ -10,34 +10,13 @@ export default {
         api.modifyClass('model:user', {
           pluginId: 'low-data-mode',
           lowDataMode: {},
-            lowDataModeImage: computed({
-              set(key, value) {
-                this.set('lowDataMode.Image_', value);
-                return value;
-              },
-              get() {
-                if (this.get('lowDataMode.Image_') !== undefined) {
-                  return this.get('lowDataMode.Image_');
-                }
-                const lowDataMode = localStorage.getItem('discourse-low-data-mode') ?? '00';
-                this.set('lowDataMode.Image_', lowDataMode[0] === '1');
-                return this.get('lowDataMode.Image_');
-              },
-            }),
-            lowDataModeVideo: computed({
-              set(key, value) {
-                this.set('lowDataMode.Video_', value);
-                return value;
-              },
-              get() {
-                if (this.get('lowDataMode.Video_') !== undefined) {
-                  return this.get('lowDataMode.Video_');
-                }
-                const lowDataMode = localStorage.getItem('discourse-low-data-mode') ?? '00';
-                this.set('lowDataMode.Video_', lowDataMode[1] === '1');
-                return this.get('lowDataMode.Video_');
-              },
-            }),
+          
+            init() {
+              this._super(...arguments);
+              const lowDataMode = localStorage.getItem('discourse-low-data-mode') ?? '00';
+              this.set('lowDataMode.image', lowDataMode[0] === '1');
+              this.set('lowDataMode.video', lowDataMode[1] === '1');
+            },
         });
       })
   }

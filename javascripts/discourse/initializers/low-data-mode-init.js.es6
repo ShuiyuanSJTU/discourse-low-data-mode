@@ -10,11 +10,25 @@ export default {
           pluginId: 'low-data-mode',
           actions: {
             save() {
-              localStorage.setItem('discourse-low-data-mode', (this.model.get('lowDataModeImage') ? '1' : '0') + (this.model.get('lowDataModeVideo') ? '1' : '0'));
-              this._super();
+              this._super(...arguments);
+              localStorage.setItem('discourse-low-data-mode', (this.model.get('lowDataMode.image') ? '1' : '0') + (this.model.get('lowDataMode.video') ? '1' : '0'));
             }
           }
         });
+        api.modifyClass("route:preferences-interface", {
+          pluginId: 'low-data-mode',
+          init() {
+            this._super(...arguments);
+            this.router.on('routeWillChange', (transition) => {
+              if (transition.from.find(route => route.name === this.routeName) && !transition.to.find(route => route.name === this.routeName)) {
+                const user = this.modelFor("user");
+                const lowDataMode = localStorage.getItem('discourse-low-data-mode') ?? '00';
+                user.set('lowDataMode.image', lowDataMode[0] === '1');
+                user.set('lowDataMode.video', lowDataMode[1] === '1');
+              }
+            });
+          },
+        })
         api.decorateCookedElement(
           post => {
             function hide_element(elem, placeholder_text) {
@@ -28,13 +42,13 @@ export default {
               })
               elem.replaceWith(placeholder);
             }
-            if (api.getCurrentUser().get('lowDataModeImage')) {
+            if (api.getCurrentUser().get('lowDataMode.image')) {
               post.querySelectorAll('.lightbox:not(.emoji):not(.avatar)')
                 .forEach((img) => hide_element(img, I18n.t(themePrefix("place_holder_image"))));
               post.querySelectorAll('img:not(.emoji):not(.avatar)')
                 .forEach((img) => hide_element(img, I18n.t(themePrefix("place_holder_image"))));
             }
-            if (api.getCurrentUser().get('lowDataModeVideo')) {
+            if (api.getCurrentUser().get('lowDataMode.video')) {
               ['.video-container', 'video', 'audio', 'iframe'].forEach((selector) => {
                 post.querySelectorAll(selector)
                   .forEach((video) => hide_element(video, I18n.t(themePrefix("place_holder_video"))));
