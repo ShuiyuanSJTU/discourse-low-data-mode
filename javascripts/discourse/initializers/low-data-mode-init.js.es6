@@ -20,7 +20,7 @@ export default {
           init() {
             this._super(...arguments);
             this.router.on('routeWillChange', (transition) => {
-              if (transition.from.find(route => route.name === this.routeName) && !transition.to.find(route => route.name === this.routeName)) {
+              if (transition.from?.find(route => route.name === this.routeName) && !transition.to?.find(route => route.name === this.routeName)) {
                 const user = this.modelFor("user");
                 const lowDataMode = localStorage.getItem('discourse-low-data-mode') ?? '00';
                 user.set('lowDataMode.image', lowDataMode[0] === '1');
