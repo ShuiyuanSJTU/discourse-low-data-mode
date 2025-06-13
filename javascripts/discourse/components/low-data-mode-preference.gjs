@@ -7,13 +7,13 @@ const LowDataModePreference = <template>
     <div class="controls">
       <PreferenceCheckbox
         @labelKey={{themePrefix "low_data_mode_image"}}
-        @checked={{this.model.lowDataMode.image}}
+        @checked={{@model.lowDataMode.image}}
       />
     </div>
     <div class="controls">
       <PreferenceCheckbox
         @labelKey={{themePrefix "low_data_mode_video"}}
-        @checked={{this.model.lowDataMode.video}}
+        @checked={{@model.lowDataMode.video}}
       />
     </div>
   </div>

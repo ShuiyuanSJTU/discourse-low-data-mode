@@ -5,18 +5,22 @@ export default {
   before: "inject-discourse-objects",
   initialize() {
     withPluginApi("0.8.22", (api) => {
-      api.modifyClass("model:user", {
-        pluginId: "low-data-mode",
-        lowDataMode: {},
+      api.modifyClass(
+        "model:user",
+        (Superclass) =>
+          class extends Superclass {
+            lowDataMode = {};
 
-        init() {
-          this._super(...arguments);
-          const lowDataMode =
-            localStorage.getItem("discourse-low-data-mode") ?? "00";
-          this.set("lowDataMode.image", lowDataMode[0] === "1");
-          this.set("lowDataMode.video", lowDataMode[1] === "1");
-        },
-      });
+            init() {
+              super.init(...arguments);
+              const lowDataMode =
+                localStorage.getItem("discourse-low-data-mode") ?? "00";
+              this.set("lowDataMode", {});
+              this.set("lowDataMode.image", lowDataMode[0] === "1");
+              this.set("lowDataMode.video", lowDataMode[1] === "1");
+            }
+          }
+      );
     });
   },
 };

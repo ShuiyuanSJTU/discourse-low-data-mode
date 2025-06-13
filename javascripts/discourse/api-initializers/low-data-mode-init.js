@@ -1,3 +1,4 @@
+import { action } from "@ember/object";
 import { apiInitializer } from "discourse/lib/api";
 import { i18n } from "discourse-i18n";
 
@@ -6,16 +7,15 @@ export default apiInitializer((api) => {
     "controller:preferences/interface",
     (Superclass) =>
       class extends Superclass {
-        actions = {
-          save() {
-            super.save(...arguments);
-            localStorage.setItem(
-              "discourse-low-data-mode",
-              (this.model.get("lowDataMode.image") ? "1" : "0") +
-                (this.model.get("lowDataMode.video") ? "1" : "0")
-            );
-          },
-        };
+        @action
+        save() {
+          super.save(...arguments);
+          localStorage.setItem(
+            "discourse-low-data-mode",
+            (this.model.get("lowDataMode.image") ? "1" : "0") +
+              (this.model.get("lowDataMode.video") ? "1" : "0")
+          );
+        }
       }
   );
   api.modifyClass(
